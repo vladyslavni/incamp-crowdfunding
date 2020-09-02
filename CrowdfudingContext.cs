@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crowdfunding
 {
+    // services add db context
     public class CrowdfudingContext : DbContext
     {
         public DbSet<User> Users {get; set;}

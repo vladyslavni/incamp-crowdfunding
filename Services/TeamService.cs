@@ -6,49 +6,42 @@ namespace Crowdfunding.Services
 {
     public class TeamService
     {
+
+        private CrowdfudingContext db;
+
+        public TeamService(CrowdfudingContext db)
+        {
+            this.db = db;
+        }
+
         public Team GetById(long id)
         {
-            using(CrowdfudingContext db = new CrowdfudingContext()) 
-            {
-                return db.Teams.Find(id);
-            }
+            return db.Teams.Find(id);
         }
 
         public List<Team> GetAll()
         {
-            using(CrowdfudingContext db = new CrowdfudingContext()) 
-            {
-                return db.Teams.ToList();
-            }
+            return db.Teams.ToList();
         }
 
         public void CreateNew(Team team)
         {
-            using(CrowdfudingContext db = new CrowdfudingContext()) 
-            {
-                db.Teams.Add(team);
-                db.SaveChanges();
-            }
+            db.Teams.Add(team);
+            db.SaveChanges();
         }
 
         public void UpdateName(long id, string name)
         {
-            using(CrowdfudingContext db = new CrowdfudingContext()) 
-            {
-                Team team = db.Teams.Find(id);
-                team.Name = name;
-                db.SaveChanges();
-            }
+            Team team = db.Teams.Find(id);
+            team.Name = name;
+            db.SaveChanges();
         }
 
         public void RemoveById(long id)
         {
-            using(CrowdfudingContext db = new CrowdfudingContext()) 
-            {
-                Team team = db.Teams.Find(id);
-                db.Teams.Remove(team);
-                db.SaveChanges();
-            }
+            Team team = db.Teams.Find(id);
+            db.Teams.Remove(team);
+            db.SaveChanges();
         }
     }
 }

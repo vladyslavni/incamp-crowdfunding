@@ -6,39 +6,35 @@ namespace Crowdfunding.Services
 {
     public class UserService
     {
+
+        private CrowdfudingContext db;
+
+        public UserService(CrowdfudingContext db)
+        {
+            this.db = db;
+        }
+
         public User GetById(long id)
         {
-            using(CrowdfudingContext db = new CrowdfudingContext()) 
-            {
-                return db.Users.Find(id);
-            }
+            return db.Users.Find(id);
         }
 
         public List<User> GetAll()
         {
-            using(CrowdfudingContext db = new CrowdfudingContext()) 
-            {
-                return db.Users.ToList();
-            }
+            return db.Users.ToList();
         }
 
         public void CreateNew(User user)
         {
-            using(CrowdfudingContext db = new CrowdfudingContext()) 
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-            }
+            db.Users.Add(user);
+            db.SaveChanges();
         }
 
         public void RemoveById(long id)
         {
-            using(CrowdfudingContext db = new CrowdfudingContext()) 
-            {
-                User user = db.Users.Find(id);
-                db.Users.Remove(user);
-                db.SaveChanges();
-            }
+            User user = db.Users.Find(id);
+            db.Users.Remove(user);
+            db.SaveChanges();
         }
     }
 }

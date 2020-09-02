@@ -8,7 +8,7 @@ namespace Crowdfunding.Models
         public string Name {get; set;}
         public string Description {get; set;}
         public long Goal {get; set;}
-        public Team team {get; set;}
+        public Team Team {get; set;}
         public ProjectStatus Status {get; set;}
     }
 }

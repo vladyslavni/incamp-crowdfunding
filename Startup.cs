@@ -20,10 +20,12 @@ namespace Crowdfunding
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSingleton<UserService>();
-            services.AddSingleton<InvestmentService>();
-            services.AddSingleton<TeamService>();
-            services.AddSingleton<ProjectService>();
+            services.AddDbContext<CrowdfudingContext>();
+
+            services.AddScoped<UserService>();
+            services.AddScoped<TeamService>();
+            services.AddScoped<InvestmentService>();
+            services.AddScoped<ProjectService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
