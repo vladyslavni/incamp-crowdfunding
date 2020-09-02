@@ -18,7 +18,7 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpGet("projects/{id}")]
-        public Project GetProjectById(int id)
+        public Project GetProjectById(long id)
         {
             return projectService.GetById(id);
         }
@@ -36,13 +36,13 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpPatch("projects/{id}")]
-        public void UpdateProjectStatus(int id, ProjectStatus status)
+        public void UpdateProjectStatus(long id, ProjectStatus status)
         {
             projectService.UpdateStatus(id, status);
         }
 
         [HttpDelete("projects/{id}")]
-        public void RemoveProjectById(int id)
+        public void RemoveProjectById(long id)
         {
             projectService.RemoveById(id);
         }

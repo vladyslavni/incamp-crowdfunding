@@ -17,7 +17,7 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpGet("users/{id}")]
-        public User GetUserById(int id)
+        public User GetUserById(long id)
         {
             return userService.GetById(id);
         }
@@ -35,7 +35,7 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpDelete("users/{id}")]
-        public void RemoveUserById(int id)
+        public void RemoveUserById(long id)
         {
             userService.RemoveById(id);
         }

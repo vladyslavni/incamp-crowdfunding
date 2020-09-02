@@ -6,7 +6,7 @@ namespace Crowdfunding.Services
 {
     public class InvestmentService
     {
-        public Investment GetById(int id)
+        public Investment GetById(long id)
         {
             using(CrowdfudingContext db = new CrowdfudingContext()) 
             {
@@ -14,7 +14,7 @@ namespace Crowdfunding.Services
             }
         }
 
-        public List<Investment> GetAllByBackerID(int id)
+        public List<Investment> GetAllByBackerID(long id)
         {
             using(CrowdfudingContext db = new CrowdfudingContext()) 
             {
@@ -22,7 +22,7 @@ namespace Crowdfunding.Services
             }
         }
 
-        public List<Investment> GetAllByProjectID(int id)
+        public List<Investment> GetAllByProjectID(long id)
         {
             using(CrowdfudingContext db = new CrowdfudingContext()) 
             {
@@ -39,7 +39,7 @@ namespace Crowdfunding.Services
             }
         }
 
-        public void RemoveById(int id)
+        public void RemoveById(long id)
         {
             using(CrowdfudingContext db = new CrowdfudingContext()) 
             {

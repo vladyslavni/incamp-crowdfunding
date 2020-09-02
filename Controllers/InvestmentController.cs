@@ -17,19 +17,19 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpGet("investments/{id}")]
-        public Investment GetInvestmentById(int id)
+        public Investment GetInvestmentById(long id)
         {
             return investmentService.GetById(id);
         }
 
         [HttpGet("backers/{id}/investments/")]
-        public List<Investment> GetAllInvestmentsByBackerID(int id)
+        public List<Investment> GetAllInvestmentsByBackerID(long id)
         {
             return investmentService.GetAllByBackerID(id);
         }
 
         [HttpGet("projects/{id}/investments/")]
-        public List<Investment> GetAllInvestmentsByProjectID(int id)
+        public List<Investment> GetAllInvestmentsByProjectID(long id)
         {
             return investmentService.GetAllByProjectID(id);
         }
@@ -41,7 +41,7 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpDelete("investments/{id}")]
-        public void RemoveInvestmentById(int id)
+        public void RemoveInvestmentById(long id)
         {
             investmentService.RemoveById(id);
         }

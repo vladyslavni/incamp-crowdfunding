@@ -17,7 +17,7 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpGet("teams/{id}")]
-        public Team GetTeamById(int id)
+        public Team GetTeamById(long id)
         {
             return teamService.GetById(id);
         }
@@ -35,13 +35,13 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpPatch("teams/{id}")]
-        public void UpdateTeamName(int id, string name)
+        public void UpdateTeamName(long id, string name)
         {
             teamService.UpdateName(id, name);
         }
 
         [HttpDelete("teams/{id}")]
-        public void RemoveTeamById(int id)
+        public void RemoveTeamById(long id)
         {
             teamService.RemoveById(id);
         }

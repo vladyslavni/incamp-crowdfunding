@@ -6,7 +6,7 @@ namespace Crowdfunding.Services
 {
     public class TeamService
     {
-        public Team GetById(int id)
+        public Team GetById(long id)
         {
             using(CrowdfudingContext db = new CrowdfudingContext()) 
             {
@@ -31,7 +31,7 @@ namespace Crowdfunding.Services
             }
         }
 
-        public void UpdateName(int id, string name)
+        public void UpdateName(long id, string name)
         {
             using(CrowdfudingContext db = new CrowdfudingContext()) 
             {
@@ -41,7 +41,7 @@ namespace Crowdfunding.Services
             }
         }
 
-        public void RemoveById(int id)
+        public void RemoveById(long id)
         {
             using(CrowdfudingContext db = new CrowdfudingContext()) 
             {
