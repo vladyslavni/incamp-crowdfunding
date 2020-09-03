@@ -6,7 +6,7 @@ using Crowdfunding.Services;
 namespace Crowdfunding.Controllers
 {
     [ApiController]
-    [Route("api/d")]
+    [Route("api/")]
     public class InvestmentController : Controller
     {
         private InvestmentService investmentService;
@@ -22,19 +22,19 @@ namespace Crowdfunding.Controllers
             return investmentService.GetById(id);
         }
 
-        [HttpGet("backers/{id}/investments/")]
+        [HttpGet("backers/{id}/investments")]
         public List<Investment> GetAllInvestmentsByBackerID(long id)
         {
             return investmentService.GetAllByBackerID(id);
         }
 
-        [HttpGet("projects/{id}/investments/")]
+        [HttpGet("projects/{id}/investments")]
         public List<Investment> GetAllInvestmentsByProjectID(long id)
         {
             return investmentService.GetAllByProjectID(id);
         }
 
-        [HttpPost("investments/")]
+        [HttpPost("projects/{id}/investments")]
         public void CreateNewInvestment(Investment investment)
         {
             investmentService.CreateNew(investment);

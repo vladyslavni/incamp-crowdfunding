@@ -7,7 +7,7 @@ using Crowdfunding.Models.Enums;
 namespace Crowdfunding.Controllers
 {
     [ApiController]
-    [Route("api/")]
+    [Route("api/projects")]
     public class ProjectController : Controller
     {
         private ProjectService projectService;
@@ -17,31 +17,31 @@ namespace Crowdfunding.Controllers
             this.projectService = projectService;
         }
 
-        [HttpGet("projects/{id}")]
+        [HttpGet("{id}")]
         public Project GetProjectById(long id)
         {
             return projectService.GetById(id);
         }
 
-        [HttpGet("projects/")]
+        [HttpGet]
         public List<Project> GetAllProjects()
         {
             return projectService.GetAll();
         }
 
-        [HttpPost("projects/")]
+        [HttpPost]
         public void CreateNewProject(Project project)
         {
             projectService.CreateNew(project);
         }
 
-        [HttpPatch("projects/{id}")]
+        [HttpPatch("{id}")]
         public void UpdateProjectStatus(long id, ProjectStatus status)
         {
             projectService.UpdateStatus(id, status);
         }
 
-        [HttpDelete("projects/{id}")]
+        [HttpDelete("{id}")]
         public void RemoveProjectById(long id)
         {
             projectService.RemoveById(id);

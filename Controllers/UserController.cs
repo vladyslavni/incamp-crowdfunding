@@ -6,7 +6,7 @@ using Crowdfunding.Services;
 namespace Crowdfunding.Controllers
 {
     [ApiController]
-    [Route("api/")]
+    [Route("api/users")]
     public class UserController : Controller
     {
         private UserService userService;
@@ -16,25 +16,19 @@ namespace Crowdfunding.Controllers
             this.userService = userService;
         }
 
-        [HttpGet("users/{id}")]
+        [HttpGet("{id}")]
         public User GetUserById(long id)
         {
             return userService.GetById(id);
         }
 
-        [HttpGet("users/")]
+        [HttpGet]
         public List<User> GetAllUsers()
         {
             return userService.GetAll();
         }
 
-        [HttpPost("users/")]
-        public void CreateNewUser(User user)
-        {
-            userService.CreateNew(user);
-        }
-
-        [HttpDelete("users/{id}")]
+        [HttpDelete("{id}")]
         public void RemoveUserById(long id)
         {
             userService.RemoveById(id);

@@ -6,7 +6,7 @@ using Crowdfunding.Services;
 namespace Crowdfunding.Controllers
 {
     [ApiController]
-    [Route("api/")]
+    [Route("api/teams")]
     public class TeamController : Controller
     {
         private TeamService teamService;
@@ -16,31 +16,31 @@ namespace Crowdfunding.Controllers
             this.teamService = teamService;
         }
 
-        [HttpGet("teams/{id}")]
+        [HttpGet("{id}")]
         public Team GetTeamById(long id)
         {
             return teamService.GetById(id);
         }
 
-        [HttpGet("teams/")]
+        [HttpGet]
         public List<Team> GetAllTeam()
         {
             return teamService.GetAll();
         }
 
-        [HttpPost("teams/")]
+        [HttpPost]
         public void CreateNewTeam(Team team)
         {
             teamService.CreateNew(team);
         }
 
-        [HttpPatch("teams/{id}")]
+        [HttpPatch("{id}")]
         public void UpdateTeamName(long id, string name)
         {
             teamService.UpdateName(id, name);
         }
 
-        [HttpDelete("teams/{id}")]
+        [HttpDelete("{id}")]
         public void RemoveTeamById(long id)
         {
             teamService.RemoveById(id);
