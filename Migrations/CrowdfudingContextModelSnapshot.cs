@@ -29,8 +29,8 @@ namespace Crowdfunding.Migrations
                     b.Property<long>("Amount")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("BackerId")
-                        .HasColumnType("text");
+                    b.Property<long?>("BackerId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
@@ -93,8 +93,10 @@ namespace Crowdfunding.Migrations
 
             modelBuilder.Entity("Crowdfunding.Models.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");

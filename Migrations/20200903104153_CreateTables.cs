@@ -48,7 +48,8 @@ namespace Crowdfunding.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserName = table.Column<string>(nullable: true),
                     NormalizedUserName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -84,7 +85,7 @@ namespace Crowdfunding.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    BackerId = table.Column<string>(nullable: true),
+                    BackerId = table.Column<long>(nullable: true),
                     ProjectId = table.Column<long>(nullable: true),
                     Amount = table.Column<long>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false)

@@ -1,7 +1,5 @@
-using System.Collections.Generic;
+using System.Security.AccessControl;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Session;
-using Crowdfunding.Models;
 using Crowdfunding.Models.Dto;
 using Crowdfunding.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +20,7 @@ namespace Crowdfunding.Controllers
             this.accessor = accessor;
         }
 
+        [AllowAnonymous]
         [HttpPost("registration")]
         public void RegisterUser(RegisterUserDto user)
         { 
@@ -29,14 +28,14 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult LoginUser(LoginUserDto user)
+        public ActionResult LoginUser(LoginUserDto loginUser)
         {
-            var obj = userService.GetByCredentials(user);
-            if (obj != null)  
+            var user = userService.GetByCredentials(loginUser);
+            if (user != null)  
             {  
                 var httpContext = accessor.HttpContext;
-                httpContext.Session.SetString("UserID", obj.Id);  
-                httpContext.Session.SetString("UserName", obj.UserName);  
+                httpContext.Session.SetString("UserID", user.Id.ToString());  
+                httpContext.Session.SetString("UserName", user.UserName);  
                 //TODO Переадресация
                 return null;
             }  

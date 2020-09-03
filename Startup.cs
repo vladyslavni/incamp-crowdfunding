@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Crowdfunding.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Crowdfunding
 {
@@ -26,9 +28,13 @@ namespace Crowdfunding
             services.AddScoped<TeamService>();
             services.AddScoped<InvestmentService>();
             services.AddScoped<ProjectService>();
- 
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddMvc();
             services.AddSession();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +63,7 @@ namespace Crowdfunding
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

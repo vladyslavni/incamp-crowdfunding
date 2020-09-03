@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crowdfunding.Migrations
 {
     [DbContext(typeof(CrowdfudingContext))]
-    [Migration("20200903091227_CreateTables")]
+    [Migration("20200903104153_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,8 +31,8 @@ namespace Crowdfunding.Migrations
                     b.Property<long>("Amount")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("BackerId")
-                        .HasColumnType("text");
+                    b.Property<long?>("BackerId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
@@ -95,8 +95,10 @@ namespace Crowdfunding.Migrations
 
             modelBuilder.Entity("Crowdfunding.Models.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
