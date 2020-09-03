@@ -20,12 +20,12 @@ namespace Crowdfunding.Services
 
         public List<Investment> GetAllByBackerID(long id)
         {
-            return db.Investments.Where(inv => inv.Backer.ID == id).ToList();
+            return db.Investments.Where(inv => inv.Backer.Id.Equals(id)).ToList();
         }
 
         public List<Investment> GetAllByProjectID(long id)
         {
-            return db.Investments.Where(inv => inv.Project.ID == id).ToList();
+            return db.Investments.Where(inv => inv.Project.Id == id).ToList();
         }
 
         public void CreateNew(Investment investment)
