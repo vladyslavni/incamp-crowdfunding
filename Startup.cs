@@ -26,6 +26,9 @@ namespace Crowdfunding
             services.AddScoped<TeamService>();
             services.AddScoped<InvestmentService>();
             services.AddScoped<ProjectService>();
+ 
+            services.AddMvc();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,8 +47,10 @@ namespace Crowdfunding
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
+            app.UseStaticFiles();
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
