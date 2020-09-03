@@ -21,7 +21,7 @@ namespace Crowdfunding.Migrations
 
             modelBuilder.Entity("Crowdfunding.Models.Investment", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -29,27 +29,27 @@ namespace Crowdfunding.Migrations
                     b.Property<long>("Amount")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("BackerID")
-                        .HasColumnType("bigint");
+                    b.Property<string>("BackerId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<long?>("ProjectID")
+                    b.Property<long?>("ProjectId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BackerID");
+                    b.HasIndex("BackerId");
 
-                    b.HasIndex("ProjectID");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Investments");
                 });
 
             modelBuilder.Entity("Crowdfunding.Models.Project", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -66,19 +66,19 @@ namespace Crowdfunding.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<long?>("TeamID")
+                    b.Property<long?>("TeamId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("TeamID");
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("Crowdfunding.Models.Team", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -86,20 +86,27 @@ namespace Crowdfunding.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("Crowdfunding.Models.User", b =>
                 {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
@@ -107,15 +114,42 @@ namespace Crowdfunding.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
-                    b.Property<long?>("TeamID")
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<long?>("TeamId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("ID");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
 
-                    b.HasIndex("TeamID");
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Users");
                 });
@@ -124,25 +158,25 @@ namespace Crowdfunding.Migrations
                 {
                     b.HasOne("Crowdfunding.Models.User", "Backer")
                         .WithMany()
-                        .HasForeignKey("BackerID");
+                        .HasForeignKey("BackerId");
 
                     b.HasOne("Crowdfunding.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectID");
+                        .HasForeignKey("ProjectId");
                 });
 
             modelBuilder.Entity("Crowdfunding.Models.Project", b =>
                 {
                     b.HasOne("Crowdfunding.Models.Team", "Team")
                         .WithMany()
-                        .HasForeignKey("TeamID");
+                        .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("Crowdfunding.Models.User", b =>
                 {
                     b.HasOne("Crowdfunding.Models.Team", null)
                         .WithMany("Members")
-                        .HasForeignKey("TeamID");
+                        .HasForeignKey("TeamId");
                 });
 #pragma warning restore 612, 618
         }

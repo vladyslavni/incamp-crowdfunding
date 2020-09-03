@@ -12,35 +12,35 @@ namespace Crowdfunding.Migrations
                 name: "Teams",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teams", x => x.ID);
+                    table.PrimaryKey("PK_Teams", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Goal = table.Column<long>(nullable: false),
-                    TeamID = table.Column<long>(nullable: true),
+                    TeamId = table.Column<long>(nullable: true),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.ID);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Projects_Teams_TeamID",
-                        column: x => x.TeamID,
+                        name: "FK_Projects_Teams_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Teams",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -48,22 +48,33 @@ namespace Crowdfunding.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    NormalizedUserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    NormalizedEmail = table.Column<string>(nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    TeamID = table.Column<long>(nullable: true)
+                    TeamId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.ID);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Teams_TeamID",
-                        column: x => x.TeamID,
+                        name: "FK_Users_Teams_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Teams",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -71,49 +82,49 @@ namespace Crowdfunding.Migrations
                 name: "Investments",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    BackerID = table.Column<long>(nullable: true),
-                    ProjectID = table.Column<long>(nullable: true),
+                    BackerId = table.Column<string>(nullable: true),
+                    ProjectId = table.Column<long>(nullable: true),
                     Amount = table.Column<long>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Investments", x => x.ID);
+                    table.PrimaryKey("PK_Investments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Investments_Users_BackerID",
-                        column: x => x.BackerID,
+                        name: "FK_Investments_Users_BackerId",
+                        column: x => x.BackerId,
                         principalTable: "Users",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Investments_Projects_ProjectID",
-                        column: x => x.ProjectID,
+                        name: "FK_Investments_Projects_ProjectId",
+                        column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Investments_BackerID",
+                name: "IX_Investments_BackerId",
                 table: "Investments",
-                column: "BackerID");
+                column: "BackerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Investments_ProjectID",
+                name: "IX_Investments_ProjectId",
                 table: "Investments",
-                column: "ProjectID");
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_TeamID",
+                name: "IX_Projects_TeamId",
                 table: "Projects",
-                column: "TeamID");
+                column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_TeamID",
+                name: "IX_Users_TeamId",
                 table: "Users",
-                column: "TeamID");
+                column: "TeamId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
