@@ -3,6 +3,8 @@ using Crowdfunding.Models.Dto;
 using Crowdfunding.Models.Mappers;
 using System.Linq;
 using System.Collections.Generic;
+using Crowdfunding.Utils;
+using Crowdfunding.Models.Enums;
 
 namespace Crowdfunding.Services
 {
@@ -11,12 +13,13 @@ namespace Crowdfunding.Services
         private CrowdfudingContext db;
         private UserService userService;
         private ProjectService projectService;
-
-        public InvestmentService(CrowdfudingContext db, UserService userService, ProjectService projectService)
+        private TransactionService transactionService;
+        public InvestmentService(CrowdfudingContext db, UserService userService, ProjectService projectService, TransactionService transactionService)
         {
             this.db = db;
             this.userService = userService;
             this.projectService = projectService;
+            this.transactionService = transactionService;
         }
 
         public Investment GetById(long id)
@@ -38,17 +41,48 @@ namespace Crowdfunding.Services
         {
             User user = userService.GetById(userId);
             Project project = projectService.GetById(projectId);
-            Investment investment = InvestmentMapper.Map(user, project, investmentDto);
             
-            db.Investments.Add(investment);
-            db.SaveChanges();
+            BankTransaction bankTransaction = BankTransactionMapper.Map(investmentDto);
+            TransactionResult transaction = BankService.MakeTransaction(bankTransaction);
+
+            transactionService.SaveNew(transaction);
+
+            if(transaction.Status == TransactionStatus.COMPLETED)
+            {
+                Investment investment = InvestmentMapper.Map(user, project, transaction);
+                
+                db.Investments.Add(investment);
+                db.SaveChanges();
+
+                projectService.UpdateCollectedMoney(projectId);
+            } 
+            else
+            {
+                // TODO: Error message
+            }
         }
 
         public void RemoveById(long id)
         {
             Investment investment = db.Investments.Find(id);
-            db.Investments.Remove(investment);
-            db.SaveChanges();
+            TransactionResult transaction = investment.Transaction;
+            
+            BankTransaction bankTransaction = BankTransactionMapper.Map(transaction);
+            TransactionResult transactionResult = BankService.MakeReturnTransaction(bankTransaction);
+
+            transactionService.SaveNew(transactionResult);
+
+            if (transactionResult.Status == TransactionStatus.COMPLETED)
+            {
+                db.Investments.Remove(investment);
+                db.SaveChanges();
+                
+                projectService.UpdateCollectedMoney(investment.Project.Id);
+            } 
+            else
+            {
+                // TODO: Error message
+            }
         }
     }
 }
