@@ -24,6 +24,14 @@ namespace Crowdfunding.Services
             return db.Projects.ToList();
         }
 
+        public void UpdateCollectedMoney(long id)
+        {
+            double money = db.Investments.Where(inv => inv.Project.Id == id).Select(inv => inv.Amount).Sum();
+
+            db.Projects.Find(id).CollectedMoney = money;
+            db.SaveChanges();
+        }
+
         public void CreateNew(Project project)
         {
             db.Projects.Add(project);

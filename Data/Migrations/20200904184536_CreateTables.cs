@@ -45,6 +45,7 @@ namespace Crowdfunding.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Goal = table.Column<long>(nullable: false),
+                    CollectedMoney = table.Column<double>(nullable: false),
                     TeamId = table.Column<long>(nullable: true),
                     Status = table.Column<int>(nullable: false)
                 },
@@ -102,7 +103,7 @@ namespace Crowdfunding.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     BackerId = table.Column<long>(nullable: true),
                     ProjectId = table.Column<long>(nullable: true),
-                    Amount = table.Column<long>(nullable: false),
+                    Amount = table.Column<double>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

@@ -46,7 +46,6 @@ namespace Crowdfunding.Controllers
             if (user != null)
             {  
                 var result = signInManager.PasswordSignInAsync(user, loginUser.PasswordHash, false, false);
-                Console.WriteLine(result.Result.Succeeded);
             }  
         }
 

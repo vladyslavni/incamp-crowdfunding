@@ -3,6 +3,8 @@ using Crowdfunding.Models.Dto;
 using Crowdfunding.Models.Mappers;
 using System.Linq;
 using System.Collections.Generic;
+using Crowdfunding.Utils;
+using Crowdfunding.Models.Enums;
 
 namespace Crowdfunding.Services
 {
@@ -11,7 +13,6 @@ namespace Crowdfunding.Services
         private CrowdfudingContext db;
         private UserService userService;
         private ProjectService projectService;
-
         public InvestmentService(CrowdfudingContext db, UserService userService, ProjectService projectService)
         {
             this.db = db;
@@ -38,17 +39,41 @@ namespace Crowdfunding.Services
         {
             User user = userService.GetById(userId);
             Project project = projectService.GetById(projectId);
-            Investment investment = InvestmentMapper.Map(user, project, investmentDto);
             
-            db.Investments.Add(investment);
-            db.SaveChanges();
+            TransactionStatus transactionResult = BankService.MakeTransaction(investmentDto.Amount);
+
+            if(transactionResult == TransactionStatus.COMPLETED)
+            {
+                Investment investment = InvestmentMapper.Map(user, project, investmentDto);
+                
+                db.Investments.Add(investment);
+                db.SaveChanges();
+
+                projectService.UpdateCollectedMoney(projectId);
+            } 
+            else
+            {
+                // TODO: Error message
+            }
         }
 
         public void RemoveById(long id)
         {
             Investment investment = db.Investments.Find(id);
-            db.Investments.Remove(investment);
-            db.SaveChanges();
+            
+            TransactionStatus transactionResult = BankService.MakeReturnTransaction(investment.Amount);
+
+            if (transactionResult == TransactionStatus.COMPLETED)
+            {
+                db.Investments.Remove(investment);
+                db.SaveChanges();
+                
+                projectService.UpdateCollectedMoney(investment.Project.Id);
+            } 
+            else
+            {
+                // TODO: Error message
+            }
         }
     }
 }

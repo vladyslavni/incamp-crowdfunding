@@ -26,8 +26,8 @@ namespace Crowdfunding.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<long>("Amount")
-                        .HasColumnType("bigint");
+                    b.Property<double>("Amount")
+                        .HasColumnType("double precision");
 
                     b.Property<long?>("BackerId")
                         .HasColumnType("bigint");
@@ -53,6 +53,9 @@ namespace Crowdfunding.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<double>("CollectedMoney")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
