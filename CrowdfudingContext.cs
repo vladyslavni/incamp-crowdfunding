@@ -11,6 +11,7 @@ namespace Crowdfunding
         public DbSet<Team> Teams {get; set;}
         public DbSet<Investment> Investments {get; set;}
         public DbSet<Project> Projects {get; set;}
+        public DbSet<TransactionResult> Transactions {get; set;}
         public DbSet<IdentityUserClaim<long>> IdentityUserClaims {get; set;}
         
         public CrowdfudingContext()
