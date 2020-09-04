@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crowdfunding.Migrations
 {
     [DbContext(typeof(CrowdfudingContext))]
-    [Migration("20200904104721_CreateTables")]
+    [Migration("20200904184536_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,16 +40,11 @@ namespace Crowdfunding.Migrations
                     b.Property<long?>("ProjectId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("TransactionId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BackerId");
 
                     b.HasIndex("ProjectId");
-
-                    b.HasIndex("TransactionId");
 
                     b.ToTable("Investments");
                 });
@@ -99,33 +94,6 @@ namespace Crowdfunding.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("Crowdfunding.Models.TransactionResult", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("FromAccount")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ToAccount")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Crowdfunding.Models.User", b =>
@@ -223,10 +191,6 @@ namespace Crowdfunding.Migrations
                     b.HasOne("Crowdfunding.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId");
-
-                    b.HasOne("Crowdfunding.Models.TransactionResult", "Transaction")
-                        .WithMany()
-                        .HasForeignKey("TransactionId");
                 });
 
             modelBuilder.Entity("Crowdfunding.Models.Project", b =>

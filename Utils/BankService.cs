@@ -6,26 +6,14 @@ namespace Crowdfunding.Utils
 {
     public class BankService
     {
-        public static TransactionResult MakeTransaction(BankTransaction bankTransaction)
+        public static TransactionStatus MakeTransaction(double amount)
         {
-            string fromAccount = "userAccount";
-            string toAccount = bankTransaction.ToAccount;
-            TransactionStatus status = TransactionStatus.COMPLETED;
-            double amount = bankTransaction.Amount;
-            DateTime date = DateTime.Now;
-
-            return new TransactionResult(fromAccount, toAccount, status, amount, date);
+            return TransactionStatus.COMPLETED;
         }
 
-        public static TransactionResult MakeReturnTransaction(BankTransaction bankTransaction)
+        public static TransactionStatus MakeReturnTransaction(double amount)
         {
-            string fromAccount = "CrowdfundingAccount";
-            string toAccount = bankTransaction.ToAccount;
-            TransactionStatus status = TransactionStatus.COMPLETED;
-            double amount = bankTransaction.Amount;
-            DateTime date = DateTime.Now;
-
-            return new TransactionResult(fromAccount, toAccount, status, amount, date);
+            return TransactionStatus.COMPLETED;
         }
     }
 }

@@ -30,7 +30,6 @@ namespace Crowdfunding
             services.AddScoped<UserService>();
             services.AddScoped<TeamService>();
             services.AddScoped<InvestmentService>();
-            services.AddScoped<TransactionService>();
             services.AddScoped<ProjectService>();
 
             services

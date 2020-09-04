@@ -37,23 +37,6 @@ namespace Crowdfunding.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transactions",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FromAccount = table.Column<string>(nullable: true),
-                    ToAccount = table.Column<string>(nullable: true),
-                    Status = table.Column<int>(nullable: false),
-                    Amount = table.Column<double>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transactions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -121,8 +104,7 @@ namespace Crowdfunding.Migrations
                     BackerId = table.Column<long>(nullable: true),
                     ProjectId = table.Column<long>(nullable: true),
                     Amount = table.Column<double>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    TransactionId = table.Column<long>(nullable: true)
+                    Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -139,12 +121,6 @@ namespace Crowdfunding.Migrations
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Investments_Transactions_TransactionId",
-                        column: x => x.TransactionId,
-                        principalTable: "Transactions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -156,11 +132,6 @@ namespace Crowdfunding.Migrations
                 name: "IX_Investments_ProjectId",
                 table: "Investments",
                 column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Investments_TransactionId",
-                table: "Investments",
-                column: "TransactionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_TeamId",
@@ -186,9 +157,6 @@ namespace Crowdfunding.Migrations
 
             migrationBuilder.DropTable(
                 name: "Projects");
-
-            migrationBuilder.DropTable(
-                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Teams");

@@ -5,15 +5,14 @@ namespace Crowdfunding.Models.Mappers
 {
     public class InvestmentMapper
     {
-        public static Investment Map(User user, Project project, TransactionResult transaction)
+        public static Investment Map(User user, Project project, InvestmentDto investmentDto)
         {
             Investment investment = new Investment();
             
             investment.Backer = user;
             investment.Project = project;
-            investment.Amount = transaction.Amount;
+            investment.Amount = investmentDto.Amount;
             investment.Date = DateTime.Now;
-            investment.Transaction = transaction;
 
             return investment;
         }

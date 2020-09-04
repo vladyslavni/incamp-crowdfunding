@@ -10,8 +10,5 @@ namespace Crowdfunding.Models
         public Project Project {get; set;}
         public double Amount {get; set;}
         public DateTime Date {get; set;}
-
-        [JsonIgnore]
-        public TransactionResult Transaction {get; set;}
     }
 }

@@ -13,13 +13,11 @@ namespace Crowdfunding.Services
         private CrowdfudingContext db;
         private UserService userService;
         private ProjectService projectService;
-        private TransactionService transactionService;
-        public InvestmentService(CrowdfudingContext db, UserService userService, ProjectService projectService, TransactionService transactionService)
+        public InvestmentService(CrowdfudingContext db, UserService userService, ProjectService projectService)
         {
             this.db = db;
             this.userService = userService;
             this.projectService = projectService;
-            this.transactionService = transactionService;
         }
 
         public Investment GetById(long id)
@@ -42,14 +40,11 @@ namespace Crowdfunding.Services
             User user = userService.GetById(userId);
             Project project = projectService.GetById(projectId);
             
-            BankTransaction bankTransaction = BankTransactionMapper.Map(investmentDto);
-            TransactionResult transaction = BankService.MakeTransaction(bankTransaction);
+            TransactionStatus transactionResult = BankService.MakeTransaction(investmentDto.Amount);
 
-            transactionService.SaveNew(transaction);
-
-            if(transaction.Status == TransactionStatus.COMPLETED)
+            if(transactionResult == TransactionStatus.COMPLETED)
             {
-                Investment investment = InvestmentMapper.Map(user, project, transaction);
+                Investment investment = InvestmentMapper.Map(user, project, investmentDto);
                 
                 db.Investments.Add(investment);
                 db.SaveChanges();
@@ -65,14 +60,10 @@ namespace Crowdfunding.Services
         public void RemoveById(long id)
         {
             Investment investment = db.Investments.Find(id);
-            TransactionResult transaction = investment.Transaction;
             
-            BankTransaction bankTransaction = BankTransactionMapper.Map(transaction);
-            TransactionResult transactionResult = BankService.MakeReturnTransaction(bankTransaction);
+            TransactionStatus transactionResult = BankService.MakeReturnTransaction(investment.Amount);
 
-            transactionService.SaveNew(transactionResult);
-
-            if (transactionResult.Status == TransactionStatus.COMPLETED)
+            if (transactionResult == TransactionStatus.COMPLETED)
             {
                 db.Investments.Remove(investment);
                 db.SaveChanges();
