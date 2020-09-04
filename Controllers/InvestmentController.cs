@@ -1,12 +1,17 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Crowdfunding.Models;
 using Crowdfunding.Services;
+using Microsoft.AspNetCore.Http;
+using Crowdfunding.Models.Dto;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace Crowdfunding.Controllers
 {
     [ApiController]
-    [Route("api/d")]
+    [Route("api/")]
     public class InvestmentController : Controller
     {
         private InvestmentService investmentService;
@@ -22,22 +27,34 @@ namespace Crowdfunding.Controllers
             return investmentService.GetById(id);
         }
 
-        [HttpGet("backers/{id}/investments/")]
+        [HttpGet("backers/{id}/investments")]
         public List<Investment> GetAllInvestmentsByBackerID(long id)
         {
             return investmentService.GetAllByBackerID(id);
         }
 
-        [HttpGet("projects/{id}/investments/")]
+        [HttpGet("me/investments")]
+        public List<Investment> GetAllMyInvestments()
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            long userId = Int64.Parse(id);
+
+            return investmentService.GetAllByBackerID(userId);
+        }
+
+        [HttpGet("projects/{id}/investments")]
         public List<Investment> GetAllInvestmentsByProjectID(long id)
         {
             return investmentService.GetAllByProjectID(id);
         }
 
-        [HttpPost("investments/")]
-        public void CreateNewInvestment(Investment investment)
+        [HttpPost("projects/{projectId}/investments")]
+        public void CreateNewInvestment(long projectId, InvestmentDto investmentDto)
         {
-            investmentService.CreateNew(investment);
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            long userId = Int64.Parse(id);
+
+            investmentService.CreateNew(userId, projectId, investmentDto);
         }
 
         [HttpDelete("investments/{id}")]

@@ -4,7 +4,7 @@ namespace Crowdfunding.Models
 {
     public class Team
     {
-        public long ID { get; set; }
+        public long Id { get; set; }
         public string Name {get; set;}
         public List<User> Members {get; set;}
     }
