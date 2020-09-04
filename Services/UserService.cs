@@ -21,19 +21,19 @@ namespace Crowdfunding.Services
             return db.Users.Find(id);
         }
         
-        public User GetByCredentials(LoginUserDto user)
+        public User GetByCredentials(LoginUserDto userDto)
         {
-            if (user.Login.IsPhone())
+            if (userDto.Login.IsPhone())
             {
-                return db.Users.Where(u => u.PhoneNumber.Equals(user.Login) && u.PasswordHash.Equals(user.PasswordHash)).FirstOrDefault();
+                return db.Users.Where(u => u.PhoneNumber.Equals(userDto.Login) && u.PasswordHash.Equals(userDto.PasswordHash)).FirstOrDefault();
             } 
-            else if (user.Login.IsMail())
+            else if (userDto.Login.IsMail())
             {
-                return db.Users.Where(u => u.Email.Equals(user.Login) && u.PasswordHash.Equals(user.PasswordHash)).FirstOrDefault();
+                return db.Users.Where(u => u.Email.Equals(userDto.Login) && u.PasswordHash.Equals(userDto.PasswordHash)).FirstOrDefault();
             }
             else 
             {
-                return db.Users.Where(u => u.UserName.Equals(user.Login) && u.PasswordHash.Equals(user.PasswordHash)).FirstOrDefault();
+                return db.Users.Where(u => u.UserName.Equals(userDto.Login) && u.PasswordHash.Equals(userDto.PasswordHash)).FirstOrDefault();
             }
         }
 

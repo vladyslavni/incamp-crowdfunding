@@ -28,6 +28,12 @@ namespace Crowdfunding.Controllers
             return teamService.GetAll();
         }
 
+        [HttpGet("{id}")]
+        public List<User> GetAllMembers(long id)
+        {
+            return teamService.GetAllMembers(id);
+        }
+
         [HttpPost]
         public void CreateNewTeam(Team team)
         {
@@ -38,6 +44,18 @@ namespace Crowdfunding.Controllers
         public void UpdateTeamName(long id, string name)
         {
             teamService.UpdateName(id, name);
+        }
+
+        [HttpPatch("{id}/members/{userId}")]
+        public void JoinTheTeam(long id, long userId)
+        {
+            teamService.AddMember(id, userId);
+        }
+
+        [HttpDelete("{id}/members/{userId}")]
+        public void LeaveTheTeam(long id, long userId)
+        {
+            teamService.RemoveMember(id, userId);
         }
 
         [HttpDelete("{id}")]

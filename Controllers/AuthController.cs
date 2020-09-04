@@ -45,12 +45,13 @@ namespace Crowdfunding.Controllers
 
             if (user != null)
             {  
-                var result = signInManager.PasswordSignInAsync(user.UserName, loginUser.PasswordHash, false, false);
+                var result = signInManager.PasswordSignInAsync(user, loginUser.PasswordHash, false, false);
                 Console.WriteLine(result.Result.Succeeded);
             }  
         }
 
         [Authorize]
+        [ValidateAntiForgeryToken]
         [HttpPost("logout")]
         public void Logout()
         {
