@@ -23,11 +23,11 @@ namespace Crowdfunding.Services
         
         public User GetByCredentials(LoginUserDto userDto)
         {
-            if (userDto.Login.IsPhone())
+            if (userDto.Login.IsPhoneNumber())
             {
                 return db.Users.Where(u => u.PhoneNumber.Equals(userDto.Login) && u.PasswordHash.Equals(userDto.PasswordHash)).FirstOrDefault();
             } 
-            else if (userDto.Login.IsMail())
+            else if (userDto.Login.IsEmail())
             {
                 return db.Users.Where(u => u.Email.Equals(userDto.Login) && u.PasswordHash.Equals(userDto.PasswordHash)).FirstOrDefault();
             }
