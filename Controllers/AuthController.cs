@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System.Security.Claims;
 using System;
 using Microsoft.AspNetCore.Mvc;
@@ -28,21 +29,21 @@ namespace Crowdfunding.Controllers
         }
 
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         [HttpPost("registration")]
         public void RegisterUser(RegisterUserDto userDto)
         {
             User user = RegisterUserMapper.Map(userDto);
+            userService.CreateNew(user);
+            signInManager.UserManager.UpdateSecurityStampAsync(user);
             signInManager.UserManager.CreateAsync(user, user.PasswordHash);
         }
 
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         [HttpPost("login")]
         public void LoginUser(LoginUserDto loginUser)
         {
             var user = userService.GetByCredentials(loginUser);
-
+            
             if (user != null)
             {  
                 var result = signInManager.PasswordSignInAsync(user, loginUser.PasswordHash, false, false);

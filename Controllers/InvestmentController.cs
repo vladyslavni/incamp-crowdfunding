@@ -27,13 +27,13 @@ namespace Crowdfunding.Controllers
             return investmentService.GetById(id);
         }
 
-        [HttpGet("backers/{id}/investments")]
+        [HttpGet("users/{id}/investments")]
         public List<Investment> GetAllInvestmentsByBackerID(long id)
         {
             return investmentService.GetAllByBackerID(id);
         }
 
-        [HttpGet("me/investments")]
+        [HttpGet("users/me/investments")]
         public List<Investment> GetAllMyInvestments()
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);

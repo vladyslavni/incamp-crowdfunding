@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Crowdfunding.Utils;
 using Crowdfunding.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Crowdfunding.Services
 {
@@ -22,17 +23,17 @@ namespace Crowdfunding.Services
 
         public Investment GetById(long id)
         {
-            return db.Investments.Find(id);
+            return db.Investments.Include(p => p.Backer).Include(p => p.Project).FirstOrDefault();
         }
 
         public List<Investment> GetAllByBackerID(long id)
         {
-            return db.Investments.Where(inv => inv.Backer.Id.Equals(id)).ToList();
+            return db.Investments.Where(inv => inv.Backer.Id.Equals(id)).Include(p => p.Backer).Include(p => p.Project).ToList();
         }
 
         public List<Investment> GetAllByProjectID(long id)
         {
-            return db.Investments.Where(inv => inv.Project.Id == id).ToList();
+            return db.Investments.Where(inv => inv.Project.Id == id).Include(p => p.Backer).Include(p => p.Project).ToList();
         }
 
         public void CreateNew(long userId, long projectId, InvestmentDto investmentDto)
@@ -53,14 +54,15 @@ namespace Crowdfunding.Services
             } 
             else
             {
-                // TODO: Error message
+                throw new TransactionErrorException("Transaction execution error");
             }
         }
 
         public void RemoveById(long id)
         {
-            Investment investment = db.Investments.Find(id);
-            
+            Investment investment = db.Investments.Include(i => i.Project).FirstOrDefault();
+            long projectId = investment.Project.Id;
+
             TransactionStatus transactionResult = BankService.MakeReturnTransaction(investment.Amount);
 
             if (transactionResult == TransactionStatus.COMPLETED)
@@ -68,11 +70,11 @@ namespace Crowdfunding.Services
                 db.Investments.Remove(investment);
                 db.SaveChanges();
                 
-                projectService.UpdateCollectedMoney(investment.Project.Id);
+                projectService.UpdateCollectedMoney(projectId);
             } 
             else
             {
-                // TODO: Error message
+                throw new TransactionErrorException("Transaction execution error");
             }
         }
     }

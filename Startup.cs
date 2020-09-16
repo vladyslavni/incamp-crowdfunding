@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using Crowdfunding.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace Crowdfunding
 {
@@ -28,7 +29,6 @@ namespace Crowdfunding
             services.AddDbContext<CrowdfudingContext>();
 
             services.AddScoped<UserService>();
-            services.AddScoped<TeamService>();
             services.AddScoped<InvestmentService>();
             services.AddScoped<ProjectService>();
 
@@ -41,12 +41,18 @@ namespace Crowdfunding
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireDigit = false;
                     options.SignIn.RequireConfirmedEmail = false;
+                    options.SignIn.RequireConfirmedAccount = false;
                     options.SignIn.RequireConfirmedPhoneNumber = false;
                 })
                 .AddEntityFrameworkStores<CrowdfudingContext>();
 
             services.AddControllersWithViews();  
             services.AddRazorPages();  
+
+            services.AddControllers().AddJsonOptions(opts => 
+            {
+                opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());                
+            });
             
         }
 

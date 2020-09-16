@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Crowdfunding.Models;
 using Crowdfunding.Services;
 using Crowdfunding.Models.Enums;
+using System.Security.Claims;
+using System;
 
 namespace Crowdfunding.Controllers
 {
@@ -32,7 +34,10 @@ namespace Crowdfunding.Controllers
         [HttpPost]
         public void CreateNewProject(Project project)
         {
-            projectService.CreateNew(project);
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            long userId = Int64.Parse(id);
+
+            projectService.CreateNew(userId, project);
         }
 
         [HttpPatch("{id}")]

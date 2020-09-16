@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crowdfunding.Migrations
 {
     [DbContext(typeof(CrowdfudingContext))]
-    [Migration("20200904184536_CreateTables")]
+    [Migration("20200907103109_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,10 +88,15 @@ namespace Crowdfunding.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<long?>("MemberId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
 
                     b.ToTable("Teams");
                 });
@@ -145,9 +150,6 @@ namespace Crowdfunding.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
-                    b.Property<long?>("TeamId")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
@@ -155,8 +157,6 @@ namespace Crowdfunding.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("Users");
                 });
@@ -200,11 +200,11 @@ namespace Crowdfunding.Migrations
                         .HasForeignKey("TeamId");
                 });
 
-            modelBuilder.Entity("Crowdfunding.Models.User", b =>
+            modelBuilder.Entity("Crowdfunding.Models.Team", b =>
                 {
-                    b.HasOne("Crowdfunding.Models.Team", null)
-                        .WithMany("Members")
-                        .HasForeignKey("TeamId");
+                    b.HasOne("Crowdfunding.Models.User", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
                 });
 #pragma warning restore 612, 618
         }

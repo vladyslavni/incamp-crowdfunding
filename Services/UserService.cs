@@ -1,3 +1,4 @@
+using System;
 using Crowdfunding.Models;
 using Crowdfunding.Models.Dto;
 using System.Linq;
@@ -25,15 +26,15 @@ namespace Crowdfunding.Services
         {
             if (userDto.Login.IsPhoneNumber())
             {
-                return db.Users.Where(u => u.PhoneNumber.Equals(userDto.Login) && u.PasswordHash.Equals(userDto.PasswordHash)).FirstOrDefault();
+                return db.Users.Where(u => u.PhoneNumber.Equals(userDto.Login)).FirstOrDefault();
             } 
             else if (userDto.Login.IsEmail())
             {
-                return db.Users.Where(u => u.Email.Equals(userDto.Login) && u.PasswordHash.Equals(userDto.PasswordHash)).FirstOrDefault();
+                return db.Users.Where(u => u.Email.Equals(userDto.Login)).FirstOrDefault();
             }
             else 
             {
-                return db.Users.Where(u => u.UserName.Equals(userDto.Login) && u.PasswordHash.Equals(userDto.PasswordHash)).FirstOrDefault();
+                return db.Users.Where(u => u.UserName.Equals(userDto.Login)).FirstOrDefault();
             }
         }
 
@@ -42,9 +43,8 @@ namespace Crowdfunding.Services
             return db.Users.ToList();
         }
 
-        public void CreateNew(RegisterUserDto userDto)
+        public void CreateNew(User user)
         {
-            User user = RegisterUserMapper.Map(userDto);
             db.Users.Add(user);
             db.SaveChanges();
         }

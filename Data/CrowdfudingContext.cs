@@ -8,14 +8,17 @@ namespace Crowdfunding
     public class CrowdfudingContext : DbContext
     {
         public DbSet<User> Users {get; set;}
-        public DbSet<Team> Teams {get; set;}
         public DbSet<Investment> Investments {get; set;}
         public DbSet<Project> Projects {get; set;}
         public DbSet<IdentityUserClaim<long>> IdentityUserClaims {get; set;}
-        
+
         public CrowdfudingContext()
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
