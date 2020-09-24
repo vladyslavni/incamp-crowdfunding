@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import SideBar from './components/sidebar/SideBar';
+import Content from './Content'
+import Footer from './components/footer/Footer';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <SideBar />
+      <main>
+        <Content />
+      </main>
+      <Footer />
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,0 +1,62 @@
+section.investment-panel {
+    width: 100%;
+    background-color: gray;
+    height: auto;
+    padding: 5px 0px 30px;
+}
+
+section.investment-panel h2 {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: Verdana;
+    text-align: center;
+    margin-top: 0;
+	line-height: 100px;
+	text-decoration: underline;
+}
+
+section.investment-panel section.investment-list-panel{
+    display: flex;
+    justify-content: center;
+}
+
+
+section.investment-panel section.investment-list-panel section {
+    background-color: #201945;
+    margin: 10px;
+    width: 150px;
+    height: 230px;
+	cursor: pointer;
+    box-shadow: 0px 0px 9px 5px #0d0a1c;
+}
+
+
+section.investment-panel section.investment-list-panel img {
+    background-color: black;
+    margin: 10px;
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+}
+
+section.investment-panel section.investment-list-panel section p {
+    font-size: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: bold;
+    font-family: Verdana;
+    text-align: center;
+    margin-top: 0;
+	text-decoration: underline;
+}
+
+
+section.investment-panel section.investment-list-panel section p.amount {
+    font-size: 17px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: bold;
+    font-family: Verdana;
+    text-align: center;
+    margin-top: 0;
+}
