@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { InvestmentList } from '../investments/InvestmentList'
 import "./Account.css";
+import { UseFetch } from "../../../utils/Fetch";
 
 function Account(props) {
-  const [account, setAccount] = useState({id: 0});
-
-  useEffect(() => {
-    fetch(`/users/${props.match.params.id}`)
-    .then(response => response.json())
-    .then(account => setAccount(account));
-  }, [])
-
+  const account = UseFetch(`/users/${props.match.params.id}`, {id: 0});
+  
   return (
     <section className="account">
       <section id={account.id} className="user">

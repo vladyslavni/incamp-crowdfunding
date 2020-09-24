@@ -16,8 +16,13 @@ section.investment-panel h2 {
 }
 
 section.investment-panel section.investment-list-panel{
+    width: 100%;
+    height: auto;
+    display: table;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
 }
 
 

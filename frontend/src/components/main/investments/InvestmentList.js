@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { UseFetch } from "../../../utils/Fetch";
 import "./InvestmentList.css";
 
 export function InvestmentList(props) {
-
-  const [investments, setInvestments] = useState([]);
-  
-  useEffect(() => {
-    fetch(`/${props.path}/${props.id}/investments`)
-    .then(response => response.json())
-    .then(investments => setInvestments(investments));
-  }, [props.path, props.id])
+  const investments = UseFetch(`/${props.path}/${props.id}/investments`, []);
   
   return (
     <section className="investment-panel">

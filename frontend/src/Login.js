@@ -21,13 +21,7 @@ function Login() {
         },
         body: JSON.stringify(loginDto)
     })
-    .then((response) => {
-      // if (response.ok) {
-          // localStorage.setItem("token", JSON.stringify(response.data.user))
-              // dispatch({ type: AUTHENTICATE_USER }); 
-              // history.push("/users/me");
-          // }
-      })
+    .then(history.push("/users/me"))
   }
 
   return (

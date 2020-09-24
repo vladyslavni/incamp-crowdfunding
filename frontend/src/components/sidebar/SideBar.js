@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./SideBar.css";
-import { Link } from "react-router-dom";
+import { UseFetch } from "../../utils/Fetch";
+import { Link, useHistory } from "react-router-dom";
 
 export default function SideBar() {
-  const [user, setUser] = useState({id : 0});
-
-  useEffect(() => {
-    fetch("/users/me")
-    .then(response => response.json())
-    .then(user => setUser(user));
-  }, [])
+  const user = UseFetch(`/users/me`, {id: 0});
   
   return (
       <section className="side-bar">
           <span>
             <h1>C</h1>
           </span>
-            {(user.id === 0) ? loginTab() : ""}
-            {(user.id > 0) ? userTab(user) : ""}
+            {(user.id === 0) ? LoginTab() : UserTab(user) }
             <Link to="/projects">
                 <section>Projects</section>
             </Link>
@@ -28,17 +22,32 @@ export default function SideBar() {
   );
 }
 
-function userTab(user) {
-  return (<Link to="/users/me">
-  <section id={user.id} className="user">
-    <img src="/images/user-icon.png" alt="image"/>
-    <p>{user.userName}</p>
-  </section>;
-  </Link>)
+function UserTab(user) {
+  return <Link to="/users/me">
+          <section id={user.id} className="user">
+            <img src="/images/user-icon.png" alt="image"/>
+            <p>{user.userName}</p>
+          </section>
+        </Link>
 }
 
-function loginTab() {
-  return (<Link to="/login">
-    <section>Login</section>
-  </Link>)
+function LoginTab() {
+  return <Link to="/login">
+          <section>Login</section>
+        </Link>
+}
+
+function LogoutTab() {
+  const history = useHistory();
+
+  function HandleLogout() {
+    fetch("account/logout", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(history.push('login'))
+  }
+
+  return <section onClick={HandleLogout}>Logout</section>
 }

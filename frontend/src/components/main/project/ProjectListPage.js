@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./ProjectListPage.css";
-
+import { UseFetch } from "../../../utils/Fetch";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 
 export default function ProjectListPage() {
-
-  const [projects, setProjects] = useState([]);
-  const host = `http://localhost:5000/api/projects`;
-
-  useEffect(() => {
-    fetch(host)
-    .then(response => response.json())
-    .then(projects => setProjects(projects));
-  }, [])
+  const projects = UseFetch(`/projects`, []);
 
   return (
     <section>
