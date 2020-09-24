@@ -21,20 +21,20 @@ namespace Crowdfunding.Controllers
             this.investmentService = investmentsService;
         }
 
-        [HttpGet("investments/{id}")]
-        public Investment GetInvestmentById(long id)
-        {
-            return investmentService.GetById(id);
-        }
+        // [HttpGet("investments/{id}")]
+        // public Investment GetInvestmentById(long id)
+        // {
+        //     return investmentService.GetById(id);
+        // }
 
         [HttpGet("users/{id}/investments")]
-        public List<Investment> GetAllInvestmentsByBackerID(long id)
+        public List<UserInvestmentDto> GetAllInvestmentsByBackerID(long id)
         {
             return investmentService.GetAllByBackerID(id);
         }
 
         [HttpGet("users/me/investments")]
-        public List<Investment> GetAllMyInvestments()
+        public List<UserInvestmentDto> GetAllMyInvestments()
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             long userId = Int64.Parse(id);
@@ -43,14 +43,14 @@ namespace Crowdfunding.Controllers
         }
 
         [HttpGet("projects/{id}/investments")]
-        public List<Investment> GetAllInvestmentsByProjectID(long id)
+        public List<UserInvestmentDto> GetAllInvestmentsByProjectID(long id)
         {
             return investmentService.GetAllByProjectID(id);
         }
 
         [HttpPost("projects/{projectId}/investments")]
         public void CreateNewInvestment(long projectId, InvestmentDto investmentDto)
-        {
+        {            
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             long userId = Int64.Parse(id);
 

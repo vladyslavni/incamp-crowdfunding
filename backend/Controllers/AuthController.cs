@@ -1,5 +1,3 @@
-using System.Data.Common;
-using System.Security.Claims;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Crowdfunding.Models.Dto;
@@ -7,11 +5,12 @@ using Crowdfunding.Models;
 using Crowdfunding.Models.Mappers;
 using Crowdfunding.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Crowdfunding.Controllers
 {
@@ -30,24 +29,36 @@ namespace Crowdfunding.Controllers
 
         [AllowAnonymous]
         [HttpPost("registration")]
-        public void RegisterUser(RegisterUserDto userDto)
+        public async Task<IActionResult> RegisterUser(RegisterUserDto userDto)
         {
             User user = RegisterUserMapper.Map(userDto);
-            userService.CreateNew(user);
-            signInManager.UserManager.UpdateSecurityStampAsync(user);
-            signInManager.UserManager.CreateAsync(user, user.PasswordHash);
+            IdentityResult result = await signInManager.UserManager.CreateAsync(user, user.PasswordHash);
+            
+            if (result.Succeeded) {
+                return Ok();
+            } else {
+                return Unauthorized();
+            }
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public void LoginUser(LoginUserDto loginUser)
+        public async Task<IActionResult> LoginUser(LoginUserDto loginUser)
         {
             var user = userService.GetByCredentials(loginUser);
-            
+
             if (user != null)
             {  
-                var result = signInManager.PasswordSignInAsync(user, loginUser.PasswordHash, false, false);
+                Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, loginUser.PasswordHash, true, false);
+                // return result.Succeeded ? Ok() : Unauthorized();
+                
+                if (result.Succeeded) {
+                    return Ok();
+                } else {
+                    return Unauthorized();
+                }
             }  
+            return Unauthorized();
         }
 
         [Authorize]

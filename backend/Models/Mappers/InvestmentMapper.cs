@@ -16,5 +16,20 @@ namespace Crowdfunding.Models.Mappers
 
             return investment;
         }
+
+        public static UserInvestmentDto Map(Investment investment)
+        {
+            UserInvestmentDto investmentDto = new UserInvestmentDto();
+            
+            investmentDto.InvestmentId = investment.Id;
+            investmentDto.UserId = investment.Backer.Id;
+            investmentDto.UserName = investment.Backer.FirstName + " " + investment.Backer.LastName;
+            investmentDto.UserAvatar = "";
+            investmentDto.ProjectId = investment.Project.Id;
+            investmentDto.ProjectName = investment.Project.Name;
+            investmentDto.InvestmentAmount = investment.Amount;
+
+            return investmentDto;
+        }
     }
 }

@@ -21,19 +21,21 @@ namespace Crowdfunding.Services
             this.projectService = projectService;
         }
 
-        public Investment GetById(long id)
+        // public Investment GetById(long id)
+        // {
+        //     return db.Investments.Include(p => p.Backer).Include(p => p.Project).FirstOrDefault();
+        // }
+
+        public List<UserInvestmentDto> GetAllByBackerID(long id)
         {
-            return db.Investments.Include(p => p.Backer).Include(p => p.Project).FirstOrDefault();
+            List<Investment> investments = db.Investments.Where(inv => inv.Backer.Id.Equals(id)).Include(p => p.Backer).Include(p => p.Project).ToList();
+            return investments.Select(investment => InvestmentMapper.Map(investment)).ToList();
         }
 
-        public List<Investment> GetAllByBackerID(long id)
+        public List<UserInvestmentDto> GetAllByProjectID(long id)
         {
-            return db.Investments.Where(inv => inv.Backer.Id.Equals(id)).Include(p => p.Backer).Include(p => p.Project).ToList();
-        }
-
-        public List<Investment> GetAllByProjectID(long id)
-        {
-            return db.Investments.Where(inv => inv.Project.Id == id).Include(p => p.Backer).Include(p => p.Project).ToList();
+            List<Investment> investments = db.Investments.Where(inv => inv.Project.Id == id).Include(p => p.Backer).Include(p => p.Project).ToList();
+            return investments.Select(investment => InvestmentMapper.Map(investment)).ToList();
         }
 
         public void CreateNew(long userId, long projectId, InvestmentDto investmentDto)
