@@ -62,7 +62,6 @@ namespace Crowdfunding.Controllers
         }
 
         [Authorize]
-        [ValidateAntiForgeryToken]
         [HttpPost("logout")]
         public void Logout()
         {

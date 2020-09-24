@@ -44,34 +44,13 @@ namespace Crowdfunding
                     options.SignIn.RequireConfirmedAccount = false;
                     options.SignIn.RequireConfirmedPhoneNumber = false;
                 })
-                .AddEntityFrameworkStores<CrowdfudingContext>()
-                .AddDefaultTokenProviders();
-                // .AddUserStore<ApplicationUserStore>()
+                .AddEntityFrameworkStores<CrowdfudingContext>();
 
 
             services.AddControllersWithViews();  
             services.AddCors();
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie();
-            
-            services.ConfigureApplicationCookie(options =>
-            {
-                // options.Cookie.Name = "LOGIN_USER";
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-                // options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
-                // options.LoginPath = "/api/account/login";
-                // options.LogoutPath = "/api/account/logout";
-                // options.AccessDeniedPath = "/LoginFailed";
-                // options.SlidingExpiration = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.Lax;
-            });
+            services.AddAuthorization();
+            services.AddAuthentication();
 
             services.AddControllers().AddJsonOptions(opts => 
             {
@@ -84,7 +63,7 @@ namespace Crowdfunding
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(
-                options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials().AllowCredentials()
+                options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
             );
 
             app.UseRouting();
